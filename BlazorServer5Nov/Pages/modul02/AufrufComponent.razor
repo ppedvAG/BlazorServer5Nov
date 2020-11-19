@@ -4,10 +4,10 @@
 <input @bind="wert" />style="color:red"
 <p @onchange="change">sdfd</p>
 @wert
-@rf
+@*@rf*@
 
 @code {
-    RenderFragment rf=@:<div>Test</div>
+  //TODO  RenderFragment rf=@:<div>Test</div>;
     MyComponent hannes;
     public int wert { get; set; }
     void change()
