@@ -31,7 +31,8 @@ namespace BlazorServer5Nov
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-            //TODO services.AddProtectedBrowserStorage();
+            //TODO 
+            //services.AddProtectedBrowserStorage();
             services.AddSingleton<AufgabenVM>();
             
         }

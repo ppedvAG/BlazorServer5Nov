@@ -9,19 +9,21 @@
 
     void speichern()
     {
-        ProtectedLocalStorage.SetAsync("wert", Wert);
+        ProtectedLocalStorage.SetAsync("wert1", Wert);
 
     }
-    protected override async Task OnInitializedAsync()
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-
-        var aha = await ProtectedLocalStorage.GetAsync<string>("wert");
-        if (aha.Success)
+        if (firstRender)
         {
-            Wert = aha.Value;
+            var aha = await ProtectedLocalStorage.GetAsync<string>("wert1");
+            if (aha.Success)
+            {
+                Wert = aha.Value;
+            }
+
         }
-
-
     }
 
 }
