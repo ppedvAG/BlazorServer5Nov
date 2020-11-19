@@ -2,11 +2,14 @@
 
 <h1>Counter</h1>
 
-<p>Current count: @currentCount</p>
+<p>Current count: @(currentCount+1)</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="IncrementCount">
+    Click me
+</button>
 
-@code {
+ onclick="return confirm('wirklich?');"
+@code   {
     private int currentCount = 0;
 
     private void IncrementCount()
