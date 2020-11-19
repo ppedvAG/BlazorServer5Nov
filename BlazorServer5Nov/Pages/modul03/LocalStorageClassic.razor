@@ -1,0 +1,45 @@
+﻿@page "/LS2"
+@inject IJSRuntime JSRuntime
+
+
+<h3>LocalStorage</h3>
+<button @onclick="speichern">speichenr</button>
+<input @bind="Wert" />
+@Wert
+@code {
+    public string Wert { get; set; }
+
+    void speichern()
+    {
+        // ProtectedLocalStorage.SetAsync("wert", Wert);
+
+        JSRuntime.InvokeVoidAsync("localStorage.setItem","wert", Wert);
+
+    }
+    protected override async Task OnInitializedAsync()
+    {
+
+
+
+
+    }
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                Wert = await JSRuntime.InvokeAsync<string>("localStorage.getItem","wert");
+                StateHasChanged();
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+
+        }
+    }
+
+}

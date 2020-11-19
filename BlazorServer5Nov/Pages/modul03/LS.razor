@@ -1,0 +1,27 @@
+﻿@page "/LS"
+@using  Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedLocalStorage ProtectedLocalStorage
+<h3>LocalStorage</h3>
+<button @onclick="speichern">speichenr</button>
+<input @bind="Wert" />
+@code {
+    public string Wert { get; set; }
+
+    void speichern()
+    {
+        ProtectedLocalStorage.SetAsync("wert", Wert);
+
+    }
+    protected override async Task OnInitializedAsync()
+    {
+
+        var aha = await ProtectedLocalStorage.GetAsync<string>("wert");
+        if (aha.Success)
+        {
+            Wert = aha.Value;
+        }
+
+
+    }
+
+}
