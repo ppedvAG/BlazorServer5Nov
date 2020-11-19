@@ -1,0 +1,48 @@
+﻿@page "/MiniDB"
+@inject IJSRuntime JSRuntime
+@using System.Text.Json
+<h3>MiniDB</h3>
+<button @onclick="speichern">speichenr</button>
+@code {
+    public List<string> MyProperty { get; set; }
+    void speichern()
+    {
+        // ProtectedLocalStorage.SetAsync("wert", Wert);
+
+        MyProperty = new List<string>();
+        MyProperty.Add("Franz");
+        MyProperty.Add("Maria");
+        MyProperty.Add("Sepp");
+        MyProperty.Add("Anna");
+        var Wert = JsonSerializer.Serialize(MyProperty);
+
+        JSRuntime.InvokeVoidAsync("localStorage.setItem", "Liste", Wert);
+
+    }
+    protected override async Task OnInitializedAsync()
+    {
+
+
+
+
+    }
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                var res = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "Liste");
+                MyProperty = JsonSerializer.Deserialize<List<string>>(res);
+                StateHasChanged();
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+
+        }
+    }
+}
