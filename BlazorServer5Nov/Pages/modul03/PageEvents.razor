@@ -1,0 +1,28 @@
+﻿@page "/pe"
+@page "/pe/{Id:int}" 
+<h3>PageEvents @Id</h3>
+<input @onclick="tolles" value="clickme" type="button" />
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    void tolles()
+    {
+
+    }
+    protected override void OnInitialized()
+    {
+
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+
+    }
+    protected override void OnParametersSet()
+    {
+
+    }
+   
+
+}
