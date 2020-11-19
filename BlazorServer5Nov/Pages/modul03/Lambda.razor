@@ -1,0 +1,9 @@
+﻿@page "/lambda"
+<h3>Lambda</h3>
+<button @onclick="@(() => MyProperty++)">clickme</button>
+<button @onclick="() => MyProperty++">clickme</button>
+@MyProperty
+
+@code {
+    public int MyProperty { get; set; }
+}
