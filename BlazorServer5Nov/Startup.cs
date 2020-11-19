@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-
+using BlazorServer5Nov.Pages.modul03;
 
 namespace BlazorServer5Nov
 {
@@ -32,6 +32,7 @@ namespace BlazorServer5Nov
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             //TODO services.AddProtectedBrowserStorage();
+            services.AddSingleton<AufgabenVM>();
             
         }
 
