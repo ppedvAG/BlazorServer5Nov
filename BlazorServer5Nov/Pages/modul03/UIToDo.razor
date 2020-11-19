@@ -1,5 +1,7 @@
 ﻿@page "/todo"
+@using System.Text.Json
 @inject AufgabenVM VM
+@inject IJSRuntime JSRuntime
 <h3>UIToDo</h3>
 <div class="row">
     <div class="col">
@@ -16,10 +18,12 @@
         <div class="list-group">
             @foreach (var item in VM.ListeAufgaben)
             {
-                <div class="list-group-item list-group-item-action">
-                    <input type="checkbox" @bind="item.IsErledigt" />
-                    <h3>@item.Text</h3> @item.Erledigt.ToShortDateString()
-                </div>
+            <div class="list-group-item list-group-item-action">
+                <h3>@item.Text</h3>
+                <input type="checkbox" @bind="item.IsErledigt" />
+                @item.Erledigt.ToShortDateString()
+
+            </div>
             }
         </div>
 
@@ -33,9 +37,31 @@
     void Neu()
     {
         Aufgabe a = new Aufgabe();
-        a.Text = NeuAufgabe();
+        a.Text = NeuAufgabe;
         a.Erledigt = DateTime.Now.AddDays(2);
         VM.Speichern(a);
+
+        var Wert = JsonSerializer.Serialize(VM.ListeAufgaben);
+
+        JSRuntime.InvokeVoidAsync("localStorage.setItem", "Todos", Wert);
+
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        VM.InitAsync();
+
+        try
+        {
+            var res = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "Todos");
+            VM.ListeAufgaben = JsonSerializer.Deserialize<List<Aufgabe>>(res);
+
+        }
+        catch (Exception)
+        {
+
+
+        }
+   
     }
 
 }
