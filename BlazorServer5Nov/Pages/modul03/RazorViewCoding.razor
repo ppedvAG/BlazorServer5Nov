@@ -1,0 +1,17 @@
+﻿@page "/rvc" 
+<h3>RazorViewCoding</h3>
+@if (MyProperty)
+{
+    <h1>doller text</h1>
+}
+
+
+<div class="custom-control custom-switch">
+    <input type="checkbox" class="custom-control-input" id="customSwitch1" @bind="MyProperty" >
+    <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
+</div>
+
+@code {
+    public bool MyProperty { get; set; }
+
+}
