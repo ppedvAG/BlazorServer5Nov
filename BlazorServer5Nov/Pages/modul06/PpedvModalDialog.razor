@@ -16,8 +16,8 @@
                     @ChildContent
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"  @onclick="Show">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" @onclick="Show">Close</button>
+                    <button type="button" class="btn btn-primary" @onclick="Save">Save changes</button>
                 </div>
             </div>
         </div>
@@ -32,6 +32,9 @@
     public string Titel { get; set; }
 
     [Parameter]
+    public Action OnSave { get; set; }
+
+    [Parameter]
     public RenderFragment ChildContent { get; set; }
 
     public void Show()
@@ -39,5 +42,9 @@
         IsVisible = !IsVisible;
         StateHasChanged();
     }
+    void Save()
+    {
+        OnSave?.Invoke();
 
+    }
 }
