@@ -1,5 +1,6 @@
 ﻿@page "/LS"
 @using  Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
 @inject ProtectedLocalStorage ProtectedLocalStorage
 <h3>LocalStorage</h3>
 <button @onclick="speichern">speichenr</button>
@@ -9,6 +10,7 @@
 
     void speichern()
     {
+        
         ProtectedLocalStorage.SetAsync("wert1", Wert);
 
     }
