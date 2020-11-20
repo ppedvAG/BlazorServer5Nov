@@ -1,0 +1,12 @@
+﻿@page "/js"
+@inject IJSRuntime JSRuntime
+<h3>Component</h3>
+<button @onclick="methode"></button>
+@code {
+    async void methode()
+    {
+        var x = await JSRuntime.InvokeAsync<bool>("confirm", "Message");
+
+    }
+
+}
