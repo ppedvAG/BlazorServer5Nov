@@ -10,14 +10,6 @@ namespace BlazorServer5Nov.Pages.modul03
     public partial class Temp
     {  
         //[Inject]
-          ProtectedLocalStorage _ProtectedLocalStorage;
-
-        protected override Task OnInitializedAsync()
-        {
-          
-
-            
-            return base.OnInitializedAsync();
-        }
+    
     }
 }

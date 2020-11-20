@@ -12,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using BlazorServer5Nov.Pages.modul03;
+using Microsoft.EntityFrameworkCore;
+using BlazorServer5Nov.Pages.modul04;
 
 namespace BlazorServer5Nov
 {
@@ -35,6 +37,9 @@ namespace BlazorServer5Nov
             //services.AddProtectedBrowserStorage();
             services.AddSingleton<AufgabenVM>();
             services.AddHttpClient();
+
+            services.AddDbContext<AufgabenContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("AufgabenContext")));
             
         }
 
