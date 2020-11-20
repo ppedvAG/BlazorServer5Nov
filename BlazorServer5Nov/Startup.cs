@@ -34,6 +34,7 @@ namespace BlazorServer5Nov
             //TODO 
             //services.AddProtectedBrowserStorage();
             services.AddSingleton<AufgabenVM>();
+            services.AddHttpClient();
             
         }
 
