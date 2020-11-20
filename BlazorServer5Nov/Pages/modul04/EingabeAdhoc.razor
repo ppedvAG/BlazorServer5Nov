@@ -1,0 +1,11 @@
+﻿@page "/eingabe"
+<h3>EingabeAdhoc</h3>
+<input @bind-value="Eingabe" @bind-value:event="oninput"/>
+<input type="text" @bind="datum" @bind:format="dd.MM.yyyy" />
+@Eingabe
+@code {
+
+    DateTime datum=DateTime.Now;
+    string Eingabe;
+
+}
