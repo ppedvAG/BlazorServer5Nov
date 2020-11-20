@@ -1,0 +1,72 @@
+﻿@page "/tododb"
+@using System.Text.Json
+@using BlazorServer5Nov.Pages.modul03
+@inject BlazorServer5Nov.Pages.modul04.AufgabenVM VM
+@inject IJSRuntime JSRuntime
+<h3>UIToDo</h3>
+<div class="row">
+    <div class="col">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Aufgabe" @bind="NeuAufgabe">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" @onclick="Neu"><span class="oi oi-plus"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="list-group">
+            @foreach (var item in VM.ListeAufgaben)
+            {
+            <div class="list-group-item list-group-item-action" @key="item.ID">
+                @if (item.IsEdit)
+                {
+                    <input @bind="item.Text" class="form-control" @onfocusout="() => Aktualisiere(item)" />
+                }
+                else
+                {
+                    <h3 style='@(item.IsErledigt ? "text-decoration:line-through" : "")' @onclick="() => item.IsEdit = true">@item.Text</h3>
+                    <input type="checkbox" checked="@item.IsErledigt" 
+                           @onchange="(_)=> { item.IsErledigt=(bool)_.Value; Aktualisiere(item); }" />
+                    @*@bind= "item.IsErledigt"*@
+               @item.Erledigt.ToShortDateString()
+           }
+
+            </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+
+
+@code {
+    string NeuAufgabe;
+    void Aktualisiere(Aufgabe a)
+    {
+        a.IsEdit = false;
+        VM.Speichern(a);
+
+
+    }
+    void Neu()
+    {
+        Aufgabe a = new Aufgabe();
+        a.Text = NeuAufgabe;
+        a.Erledigt = DateTime.Now.AddDays(2);
+        VM.Neu(a);
+
+
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        VM.InitAsync();
+
+ 
+   
+
+    }
+
+}
