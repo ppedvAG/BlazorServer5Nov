@@ -1,0 +1,19 @@
+﻿@page "/modal" 
+<h3>UseModal</h3>
+<PpedvModalDialog @ref="modal1" Titel="mein toller Dialog">
+    <input />
+    <p> Text</p>
+    <button></button>
+    
+</PpedvModalDialog>
+
+<button @onclick="Show">öffne</button>
+@code {
+
+    PpedvModalDialog modal1;
+    void Show()
+    {
+        modal1.Show();
+
+    }
+}
