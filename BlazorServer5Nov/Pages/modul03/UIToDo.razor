@@ -18,10 +18,19 @@
         <div class="list-group">
             @foreach (var item in VM.ListeAufgaben)
             {
-            <div class="list-group-item list-group-item-action">
-                <h3>@item.Text</h3>
-                <input type="checkbox" @bind="item.IsErledigt" />
-                @item.Erledigt.ToShortDateString()
+            <div class="list-group-item list-group-item-action" @key="item.ID">
+                @if (item.IsEdit)
+                {
+                    <input @bind="item.Text" class="form-control" @onfocusout="() => Aktualisiere(item)" />
+                }
+                else
+                {
+                    <h3 style='@(item.IsErledigt ? "text-decoration:line-through" : "")' @onclick="() => item.IsEdit = true">@item.Text</h3>
+                    <input type="checkbox" checked="@item.IsErledigt" 
+                           @onchange="(_)=> { item.IsErledigt=(bool)_.Value; Aktualisiere(item); }" />
+                    @*@bind= "item.IsErledigt"*@
+               @item.Erledigt.ToShortDateString()
+           }
 
             </div>
             }
@@ -34,6 +43,15 @@
 
 @code {
     string NeuAufgabe;
+    void Aktualisiere(Aufgabe a)
+    {
+        a.IsEdit = false;
+        VM.Speichern(a);
+
+        var Wert = JsonSerializer.Serialize(VM.ListeAufgaben);
+        JSRuntime.InvokeVoidAsync("localStorage.setItem", "Todos", Wert);
+
+    }
     void Neu()
     {
         Aufgabe a = new Aufgabe();
@@ -53,7 +71,12 @@
         try
         {
             var res = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "Todos");
-            VM.ListeAufgaben = JsonSerializer.Deserialize<List<Aufgabe>>(res);
+            var lokal = JsonSerializer.Deserialize<List<Aufgabe>>(res);
+            if (lokal.Count>VM.ListeAufgaben.Count)
+            {
+                VM.ListeAufgaben = lokal;
+                VM.OnTodosChanged();
+            }
 
         }
         catch (Exception)
@@ -61,7 +84,10 @@
 
 
         }
-   
+        VM.OnTodosChanged += () => InvokeAsync(StateHasChanged);
+
+
+
     }
 
 }

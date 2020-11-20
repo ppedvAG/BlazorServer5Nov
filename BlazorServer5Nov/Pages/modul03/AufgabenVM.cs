@@ -11,21 +11,24 @@ namespace BlazorServer5Nov.Pages.modul03
 {
     public class AufgabenVM
     {
-        //IJSRuntime JSRuntime;
-        //public AufgabenVM([FromServices] IJSRuntime _JSRuntime)
-        //{
-        //    JSRuntime = _JSRuntime;
-        //}
+
+        public Action OnTodosChanged;
+
         public List<Aufgabe> ListeAufgaben { get; set; }
         public void Speichern(Aufgabe a)
         {
 
-            if (a.ID < 1) //NEU
+            if (a.ID < 1) //NEU 0 wäre neu
             {
+
                 if (ListeAufgaben.Count > 0)
                 {
                     var id = ListeAufgaben.Max(x => x.ID);
                     a.ID = id + 1;
+                }
+                else //Liste komplett leer it 1 INiti
+                {
+                    a.ID = 1;
                 }
 
 
@@ -37,7 +40,7 @@ namespace BlazorServer5Nov.Pages.modul03
                 _a.IsErledigt = a.IsErledigt;
                 _a.Text = a.Text;
             }
-
+            OnTodosChanged?.Invoke();
             //var Wert = JsonSerializer.Serialize(ListeAufgaben);
 
             //JSRuntime.InvokeVoidAsync("localStorage.setItem", "Todos", Wert);
@@ -46,8 +49,12 @@ namespace BlazorServer5Nov.Pages.modul03
         }
         public async void InitAsync()
         {
-            ListeAufgaben = new List<Aufgabe>();
+            if (ListeAufgaben==null)
+            {
+     ListeAufgaben = new List<Aufgabe>();
 
+            }
+       
             //try
             //{
             //    var res = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "Todos");
