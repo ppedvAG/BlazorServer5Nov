@@ -1,0 +1,20 @@
+﻿@inherits InputText
+
+<input @attributes="AdditionalAttributes"
+       class="@CssFix(CssClass)"
+       value="@CurrentValue"
+       @oninput="EventCallback.Factory.CreateBinder<string>(
+         this, __value => CurrentValueAsString = __value,
+         CurrentValueAsString)" />
+@code
+{
+
+
+    string CssFix(string css)
+    {
+        var fix = css.Replace(" invalid", " is-invalid");
+
+         fix = fix.Replace(" valid", " is-valid");
+        return fix;
+    }
+}
